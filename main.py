@@ -12,11 +12,7 @@ class Single_Game:
                               bg = '#733f19', fg = "White", padx = 330, pady = 12) 
     self.dealer_side.place(x = -10, y = 0) # used place to postion the strip
 
-    starting_credit = 500
-    starting_bet = 0
-
-    self.start_cred_display = Label(self.single_frame, text = ("Credits: ", starting_credit), font = "Times 10", bg = 'orange')
-    self.start_cred_display.place(x = 580, y = 80)
+    
 
 
 if __name__ == "__main__":
