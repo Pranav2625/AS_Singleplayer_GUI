@@ -2,8 +2,8 @@ from tkinter import *
 from functools import partial
 import random
 
-card_num_1 = random.randint(1, 13)
-card_num_2 = random.randint(1, 13)
+card_num_1 = random.randint(1, 5)
+card_num_2 = random.randint(1, 5) 
 
 root = Tk()
 root.title("Single Player Mode") # Window title
@@ -18,6 +18,18 @@ dealer_side.place(x=-10, y=0)
 sngle_creds=500  # Intial value of credits
 sngle_bets=0     # and bets
 
+def sngle_credits_add():
+  global sngle_creds
+  sngle_cred_add = sngle_bets
+  sngle_creds += sngle_cred_add
+  sngle_creds_counter.set("Credits: ${:.2f}".format(sngle_creds))
+
+def sngle_credits_sub():
+  global sngle_creds
+  # sngle_scred_sub = sngle_bets
+  sngle_creds -= sngle_bets
+  sngle_creds_counter.set("Credits: ${:.2f}".format(sngle_creds))
+  
 
 
 def sngle_bets_add():    # For adding bets
@@ -57,6 +69,16 @@ sngle_bet_sub_but.place(x=580, y=180) # Button for removing bets
 def sngle_cnfrm_bet():
   sngle_bet_add_but.config(state=DISABLED)
   sngle_bet_sub_but.config(state=DISABLED)
+  print(card_num_1, card_num_2) 
+  if (card_num_1 + card_num_2) == 6:
+    print("You win!!!!")
+    sngle_credits_add()
+  if (card_num_1 + card_num_2) > 6:
+    print("You lose")
+    sngle_credits_sub()
+  # else:
+  #   pass
+  # print("Choose an action at the bottom of the screen")
 
 sngle_confirm_bet=Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_cnfrm_bet)
 sngle_confirm_bet.place(x=580, y=220)
@@ -70,7 +92,6 @@ sngle_stay_button.place(x=375, y=335)
 
 sngle_double_button=Button(sngle_frame, text="Double", bg="white", bd=1)  # Double button
 sngle_double_button.place(x=300, y=375)
-
 
 
 
