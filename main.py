@@ -76,9 +76,9 @@ def sngle_cnfrm_bet():
   if (card_num_1 + card_num_2) > 6:
     print("You lose")
     sngle_credits_sub()
-  # else:
-  #   pass
-  # print("Choose an action at the bottom of the screen")
+  else:
+    pass
+  print("Choose an action at the bottom of the screen")
 
 sngle_confirm_bet=Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_cnfrm_bet)
 sngle_confirm_bet.place(x=580, y=220)
