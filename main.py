@@ -81,7 +81,7 @@ def sngle_cnfrm_bet():
     sngle_bet_add_but.config(state=DISABLED) # Disbale add bets
     sngle_bet_sub_but.config(state=DISABLED) # remove bets
     sngle_confirm_bet.config(state=DISABLED) # and confirm bet buttons
-    print(sngle_card_play_1, sngle_card_play_2) # Print the players cards
+    print("Your cards:",sngle_card_play_1, sngle_card_play_2) # Print the players cards
     if (sngle_card_play_ttl) == 9: # If the card total is equal to nine
         print("You win!!!!") # print this statement
         sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
@@ -100,7 +100,7 @@ def sngle_cnfrm_bet():
 
 
 def sngle_play(): 
-    print(sngle_card_deal_1, sngle_card_deal_2) # Print the dealers cards
+    print("Dealer's Cards:",sngle_card_deal_1, sngle_card_deal_2) # Print the dealers cards
     if sngle_card_deal_ttl == 9:  # if the players cards total nine
       print("You win") # They win
       sngle_credits_add() # and get their winnings added to their credits
@@ -126,7 +126,7 @@ def sngle_play():
 def sngle_hit():
   global sngle_card_play_ttl # Get the player card total
   sngle_card_play_ttl += sngle_hit_card # Add another card to it
-  print(sngle_card_deal_1, sngle_card_deal_2, sngle_hit_card) # print the cards
+  print("Your cards:",sngle_card_deal_1, sngle_card_deal_2, sngle_hit_card) # print the cards
   sngle_play() # and play on
 
 def sngle_dbledwn():
@@ -146,5 +146,10 @@ sngle_stay_button.place(x=375, y=335)
 
 sngle_double_button = Button(sngle_frame, text="Double", bg="white", bd=1, command=sngle_dbledwn)  # Double button
 sngle_double_button.place(x=300, y=375)
+
+
+sngle_exit_but = Button(sngle_frame, text="Exit", bg="orange",bd=1)
+sngle_exit_but.place(x=580, y=375)
+
 
 root.mainloop()  # Loops the program until stopped/exited
