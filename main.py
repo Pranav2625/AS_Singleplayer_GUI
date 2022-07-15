@@ -4,6 +4,7 @@ import random # For randint function
 
 sngle_card_play_1 = random.randint(1, 5) # Make two random cards that
 sngle_card_play_2 = random.randint(1, 5) # will be used for the player
+sngle_hit_card = random.randint(1,5)
 sngle_card_play_ttl = (sngle_card_play_1 + sngle_card_play_2) # Total for player cards
 sngle_card_deal_1 = random.randint(1, 5) # Make two random cards for 
 sngle_card_deal_2 = random.randint(1, 5) # the dealer
@@ -83,9 +84,15 @@ def sngle_cnfrm_bet():
     print(sngle_card_play_1, sngle_card_play_2) # Print the players cards
     if (sngle_card_play_ttl) == 9: # If the card total is equal to nine
         print("You win!!!!") # print this statement
+        sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
+        sngle_bet_sub_but.config(state=NORMAL)
+        sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_add()  # Add bets to credits
     if (sngle_card_play_ttl) > 9: # If the card total is over nine
         print("You lose") # print this
+        sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
+        sngle_bet_sub_but.config(state=NORMAL)
+        sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_sub() # Take away bets amount from credits
     if (sngle_card_play_ttl) < 9: # If the total is less than nine
         print("Choose an action at the bottom of the screen")
@@ -109,10 +116,18 @@ def sngle_play():
     if sngle_card_play_ttl < sngle_card_deal_ttl: # If the dealers total exceeds the players ttl
         print("You lose")  # they lose
         sngle_credits_sub() # and takes away credits
+    if sngle_card_play_ttl == sngle_card_deal_ttl:
+        print("Draw")
     sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
     sngle_bet_sub_but.config(state=NORMAL)
     sngle_confirm_bet.config(state=NORMAL)
 
+
+def sngle_hit():
+  global sngle_card_play_ttl # Get the player card total
+  sngle_card_play_ttl += sngle_hit_card # Add another card to it
+  print(sngle_card_deal_1, sngle_card_deal_2, sngle_hit_card) # print the cards
+  sngle_play() # and play on
 
 def sngle_dbledwn():
   global sngle_bets # Get player bets
@@ -123,7 +138,7 @@ def sngle_dbledwn():
 sngle_confirm_bet = Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_cnfrm_bet)
 sngle_confirm_bet.place(x=580, y=220) # Confirm bet button
 
-sngle_hit_button = Button(sngle_frame, text="Hit", bg="white", bd=1)  # Hit button
+sngle_hit_button = Button(sngle_frame, text="Hit", bg="white", bd=1, command=sngle_hit)  # Hit button
 sngle_hit_button.place(x=250, y=335)
 
 sngle_stay_button = Button(sngle_frame, text="Stay", bg="white", bd=1, command=sngle_play)  # Stay button
