@@ -22,6 +22,14 @@ def sngle_generate():
 root = Tk()
 root.title("Single Player Mode")  # Window title
 
+def sngle_button_state():
+  sngle_hit_button.config(state=DISABLED) # disable action buttons
+  sngle_stay_button.config(state=DISABLED)
+  sngle_double_button.config(state=DISABLED)
+  sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
+  sngle_bet_sub_but.config(state=NORMAL)
+  sngle_confirm_bet.config(state=NORMAL)
+
 sngle_frame = Frame(root, width=700, height=500, bg="green")  # Window Frame
 sngle_frame.grid()
 
@@ -98,17 +106,23 @@ def sngle_cnfrm_bet():
         sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_add()  # Add bets to credits
     if (sngle_card_play_ttl) > 9: # If the card total is over nine
-        print("You lose") # print this
+        print("Busted, You lose") # print this
         sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
         sngle_bet_sub_but.config(state=NORMAL)
         sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_sub() # Take away bets amount from credits
     if (sngle_card_play_ttl) < 9: # If the total is less than nine
         print("Choose an action at the bottom of the screen")
+        sngle_hit_button.config(state=NORMAL) # Enables the action buttons
+        sngle_stay_button.config(state=NORMAL)
+        sngle_double_button.config(state=NORMAL)
         pass # Continue the game using actions
 
 
 def sngle_play(): 
+    sngle_hit_button.config(state=DISABLED) # Disable action buttons
+    sngle_stay_button.config(state=DISABLED)
+    sngle_double_button.config(state=DISABLED)
     print("Dealer's Cards:",sngle_card_deal_1, sngle_card_deal_2) # Print the dealers cards
     if sngle_card_play_ttl > sngle_card_deal_ttl: # If the players total exceeds deealers ttl
         if sngle_card_play_ttl < 9:  # and is less than nine
@@ -120,8 +134,8 @@ def sngle_play():
     if sngle_card_play_ttl < sngle_card_deal_ttl: # If the dealers total exceeds the players ttl
         print("You lose")  # they lose
         sngle_credits_sub() # and takes away credits
-    if sngle_card_play_ttl == sngle_card_deal_ttl:
-        print("Draw")
+    if sngle_card_play_ttl == sngle_card_deal_ttl: # If both totals are the same
+        print("Draw") # Call a draw
     sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
     sngle_bet_sub_but.config(state=NORMAL)
     sngle_confirm_bet.config(state=NORMAL)
@@ -134,11 +148,14 @@ def sngle_hit():
   if sngle_card_play_ttl == 9:  # if the players cards total nine
       print("You win") # They win
       sngle_credits_add() # and get their winnings added to their credits
-  if sngle_card_play_ttl > 9:
-      print("You lose")
-      sngle_credits_sub()
-  else: 
-    sngle_play() 
+      sngle_button_state() # change the button states
+  if sngle_card_play_ttl > 9: # if the total is over nine
+      print("Busted, You lose") # they lose
+      sngle_credits_sub() # their credits are subtracted
+      sngle_button_state() # and the button states are changed
+  if sngle_card_play_ttl < 9: # If the total is under nine
+    print("Press an action button to continue") 
+    pass # continue the game
 
 def sngle_dbledwn():
   global sngle_bets # Get player bets
@@ -149,6 +166,7 @@ def sngle_dbledwn():
 sngle_confirm_bet = Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_generate)
 sngle_confirm_bet.place(x=580, y=220) # Confirm bet button
 
+
 sngle_hit_button = Button(sngle_frame, text="Hit", bg="white", bd=1, command=sngle_hit)  # Hit button
 sngle_hit_button.place(x=250, y=335)
 
@@ -158,9 +176,9 @@ sngle_stay_button.place(x=375, y=335)
 sngle_double_button = Button(sngle_frame, text="Double", bg="white", bd=1, command=sngle_dbledwn)  # Double button
 sngle_double_button.place(x=300, y=375)
 
-
-sngle_exit_but = Button(sngle_frame, text="Exit", bg="orange",bd=1)
-sngle_exit_but.place(x=580, y=375)
+sngle_hit_button.config(state=DISABLED) # When the programe starts, disable the action buttons
+sngle_stay_button.config(state=DISABLED)
+sngle_double_button.config(state=DISABLED)
 
 
 root.mainloop()  # Loops the program until stopped/exited
