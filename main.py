@@ -181,4 +181,11 @@ sngle_stay_button.config(state=DISABLED)
 sngle_double_button.config(state=DISABLED)
 
 
+sngle_rules_but=Button(sngle_frame, text="Rules", bg="orange", bd=1)
+sngle_rules_but.place(x=580, y=370)
+
+sngle_exit_but=Button(sngle_frame, text="Exit", bg="orange", bd=1)
+sngle_exit_but.place(x=580, y=400)
+
+
 root.mainloop()  # Loops the program until stopped/exited
