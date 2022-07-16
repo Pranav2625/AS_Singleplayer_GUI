@@ -2,13 +2,22 @@ from tkinter import *
 from functools import partial
 import random # For randint function
 
-sngle_card_play_1 = random.randint(1, 5) # Make two random cards that
-sngle_card_play_2 = random.randint(1, 5) # will be used for the player
-sngle_hit_card = random.randint(1,5)
-sngle_card_play_ttl = (sngle_card_play_1 + sngle_card_play_2) # Total for player cards
-sngle_card_deal_1 = random.randint(1, 5) # Make two random cards for 
-sngle_card_deal_2 = random.randint(1, 5) # the dealer
-sngle_card_deal_ttl = (sngle_card_deal_1 + sngle_card_deal_2) # Total for dealer cards
+def sngle_generate():
+  global sngle_card_play_1
+  global sngle_card_play_2
+  global sngle_hit_card
+  global sngle_card_play_ttl
+  global sngle_card_deal_1
+  global sngle_card_deal_2
+  global sngle_card_deal_ttl
+  sngle_card_play_1 = random.randint(1, 5) # Make two random cards that
+  sngle_card_play_2 = random.randint(1, 5) # will be used for the player
+  sngle_hit_card = random.randint(1, 5) # Used for hit
+  sngle_card_play_ttl = (sngle_card_play_1 + sngle_card_play_2) # Total for player cards
+  sngle_card_deal_1 = random.randint(1, 5) # Make two random cards for 
+  sngle_card_deal_2 = random.randint(1, 5) # the dealer
+  sngle_card_deal_ttl = (sngle_card_deal_1 + sngle_card_deal_2) # Total for dealer cards
+  sngle_cnfrm_bet()
 
 root = Tk()
 root.title("Single Player Mode")  # Window title
@@ -101,11 +110,6 @@ def sngle_cnfrm_bet():
 
 def sngle_play(): 
     print("Dealer's Cards:",sngle_card_deal_1, sngle_card_deal_2) # Print the dealers cards
-    if sngle_card_deal_ttl == 9:  # if the players cards total nine
-      print("You win") # They win
-      sngle_credits_add() # and get their winnings added to their credits
-    else: 
-      pass  # Otherwise continue
     if sngle_card_play_ttl > sngle_card_deal_ttl: # If the players total exceeds deealers ttl
         if sngle_card_play_ttl < 9:  # and is less than nine
             print("You win") # they win
@@ -127,7 +131,14 @@ def sngle_hit():
   global sngle_card_play_ttl # Get the player card total
   sngle_card_play_ttl += sngle_hit_card # Add another card to it
   print("Your cards:",sngle_card_deal_1, sngle_card_deal_2, sngle_hit_card) # print the cards
-  sngle_play() # and play on
+  if sngle_card_play_ttl == 9:  # if the players cards total nine
+      print("You win") # They win
+      sngle_credits_add() # and get their winnings added to their credits
+  if sngle_card_play_ttl > 9:
+      print("You lose")
+      sngle_credits_sub()
+  else: 
+    sngle_play() 
 
 def sngle_dbledwn():
   global sngle_bets # Get player bets
@@ -135,7 +146,7 @@ def sngle_dbledwn():
   sngle_bets_counter.set("Bets: ${:.2f}".format(sngle_bets)) # and format it
   sngle_play()
 
-sngle_confirm_bet = Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_cnfrm_bet)
+sngle_confirm_bet = Button(sngle_frame, text="Confirm bets", bg="orange", command=sngle_generate)
 sngle_confirm_bet.place(x=580, y=220) # Confirm bet button
 
 sngle_hit_button = Button(sngle_frame, text="Hit", bg="white", bd=1, command=sngle_hit)  # Hit button
