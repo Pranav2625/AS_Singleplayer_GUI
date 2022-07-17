@@ -1,6 +1,7 @@
 from tkinter import *
 from functools import partial
 import random # For randint function
+import sys
 
 def sngle_generate():
   global sngle_card_play_1
@@ -184,7 +185,34 @@ sngle_double_button.config(state=DISABLED)
 sngle_rules_but=Button(sngle_frame, text="Rules", bg="orange", bd=1)
 sngle_rules_but.place(x=580, y=370)
 
-sngle_exit_but=Button(sngle_frame, text="Exit", bg="orange", bd=1)
+def sngle_exit():
+  sngle_exit_win = Toplevel(root)
+
+  sngle_exit_but.config(state=DISABLED)
+  sngle_exit_win.protocol("WM_DELETE_WINDOW")
+
+  sngle_exit_frame = Frame(sngle_exit_win, width=200, height=100, bg="lawngreen")
+  sngle_exit_frame.grid()
+
+  sngle_exit_text = Label(sngle_exit_frame, text="Are you sure?", font="Times 14", 
+                          justify=CENTER, bg="lawngreen")
+  sngle_exit_text.place(x=10,y=0)
+
+  def sngle_exit_y():
+    sys.exit()
+
+  sngle_ext_y_but = Button(sngle_exit_frame, text="Yes", font="Times 10", bd=1, command=sngle_exit_y)
+  sngle_ext_y_but.place(x=20, y=50)
+
+  def close_sngle_exit():  # If either the back button or window is closed
+      sngle_exit_but.config(state=NORMAL)  # revert the single player button back to normal
+      sngle_exit_win.destroy()
+
+  sngle_ext_n_but = Button(sngle_exit_frame, text="No", font="Times 10", bd=1, command=close_sngle_exit)
+  sngle_ext_n_but.place(x=130, y=50)
+
+
+sngle_exit_but=Button(sngle_frame, text="Exit", bg="orange", bd=1, command=sngle_exit)
 sngle_exit_but.place(x=580, y=400)
 
 
