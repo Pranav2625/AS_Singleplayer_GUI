@@ -11,12 +11,12 @@ def sngle_generate():
   global sngle_card_deal_1
   global sngle_card_deal_2
   global sngle_card_deal_ttl
-  sngle_card_play_1 = random.randint(1, 5) # Make two random cards that
-  sngle_card_play_2 = random.randint(1, 5) # will be used for the player
-  sngle_hit_card = random.randint(1, 5) # Used for hit
+  sngle_card_play_1 = random.randint(1, 11) # Make two random cards that
+  sngle_card_play_2 = random.randint(1, 11) # will be used for the player
+  sngle_hit_card = random.randint(1, 11) # Used for hit
   sngle_card_play_ttl = (sngle_card_play_1 + sngle_card_play_2) # Total for player cards
-  sngle_card_deal_1 = random.randint(1, 5) # Make two random cards for 
-  sngle_card_deal_2 = random.randint(1, 5) # the dealer
+  sngle_card_deal_1 = random.randint(1, 11) # Make two random cards for 
+  sngle_card_deal_2 = random.randint(1, 11) # the dealer
   sngle_card_deal_ttl = (sngle_card_deal_1 + sngle_card_deal_2) # Total for dealer cards
   sngle_cnfrm_bet()
 
@@ -100,19 +100,19 @@ def sngle_cnfrm_bet():
     sngle_bet_sub_but.config(state=DISABLED) # remove bets
     sngle_confirm_bet.config(state=DISABLED) # and confirm bet buttons
     print("Your cards:",sngle_card_play_1, sngle_card_play_2) # Print the players cards
-    if (sngle_card_play_ttl) == 9: # If the card total is equal to nine
+    if (sngle_card_play_ttl) == 21: # If the card total is equal to nine
         print("You win!!!!") # print this statement
         sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
         sngle_bet_sub_but.config(state=NORMAL)
         sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_add()  # Add bets to credits
-    if (sngle_card_play_ttl) > 9: # If the card total is over nine
+    if (sngle_card_play_ttl) > 21: # If the card total is over nine
         print("Busted, You lose") # print this
         sngle_bet_add_but.config(state=NORMAL) # revert the buttons back to normal
         sngle_bet_sub_but.config(state=NORMAL)
         sngle_confirm_bet.config(state=NORMAL)
         sngle_credits_sub() # Take away bets amount from credits
-    if (sngle_card_play_ttl) < 9: # If the total is less than nine
+    if (sngle_card_play_ttl) < 21: # If the total is less than nine
         print("Choose an action at the bottom of the screen")
         sngle_hit_button.config(state=NORMAL) # Enables the action buttons
         sngle_stay_button.config(state=NORMAL)
@@ -126,10 +126,10 @@ def sngle_play():
     sngle_double_button.config(state=DISABLED)
     print("Dealer's Cards:",sngle_card_deal_1, sngle_card_deal_2) # Print the dealers cards
     if sngle_card_play_ttl > sngle_card_deal_ttl: # If the players total exceeds deealers ttl
-        if sngle_card_play_ttl < 9:  # and is less than nine
+        if sngle_card_play_ttl < 21:  # and is less than nine
             print("You win") # they win
             sngle_credits_add()  # and add winnings to credits
-        if sngle_card_play_ttl > 9: # or is more than nine
+        if sngle_card_play_ttl > 21: # or is more than nine
             print("You lose")  # they lose
             sngle_credits_sub() # and takes away credits
     if sngle_card_play_ttl < sngle_card_deal_ttl: # If the dealers total exceeds the players ttl
@@ -144,17 +144,18 @@ def sngle_play():
 
 def sngle_hit():
   global sngle_card_play_ttl # Get the player card total
-  sngle_card_play_ttl += sngle_hit_card # Add another card to it
-  print("Your cards:",sngle_card_deal_1, sngle_card_deal_2, sngle_hit_card) # print the cards
-  if sngle_card_play_ttl == 9:  # if the players cards total nine
+  sngle_extra_crd = sngle_hit_card
+  sngle_card_play_ttl += sngle_extra_crd # Add another card to it
+  print("Your card:", sngle_extra_crd) # print the cards
+  if sngle_card_play_ttl == 21:  # if the players cards total nine
       print("You win") # They win
       sngle_credits_add() # and get their winnings added to their credits
       sngle_button_state() # change the button states
-  if sngle_card_play_ttl > 9: # if the total is over nine
+  if sngle_card_play_ttl > 21: # if the total is over nine
       print("Busted, You lose") # they lose
       sngle_credits_sub() # their credits are subtracted
       sngle_button_state() # and the button states are changed
-  if sngle_card_play_ttl < 9: # If the total is under nine
+  if sngle_card_play_ttl < 21: # If the total is under nine
     print("Press an action button to continue") 
     pass # continue the game
 
@@ -189,7 +190,11 @@ def sngle_exit():
   sngle_exit_win = Toplevel(root)
 
   sngle_exit_but.config(state=DISABLED)
-  sngle_exit_win.protocol("WM_DELETE_WINDOW")
+
+  def close_sngle_exit():  # If either the back button or window is closed
+      sngle_exit_but.config(state=NORMAL)  # revert the single player button back to normal
+      sngle_exit_win.destroy()
+  sngle_exit_win.protocol("WM_DELETE_WINDOW", partial(close_sngle_exit))
 
   sngle_exit_frame = Frame(sngle_exit_win, width=200, height=100, bg="lawngreen")
   sngle_exit_frame.grid()
@@ -203,10 +208,6 @@ def sngle_exit():
 
   sngle_ext_y_but = Button(sngle_exit_frame, text="Yes", font="Times 10", bd=1, command=sngle_exit_y)
   sngle_ext_y_but.place(x=20, y=50)
-
-  def close_sngle_exit():  # If either the back button or window is closed
-      sngle_exit_but.config(state=NORMAL)  # revert the single player button back to normal
-      sngle_exit_win.destroy()
 
   sngle_ext_n_but = Button(sngle_exit_frame, text="No", font="Times 10", bd=1, command=close_sngle_exit)
   sngle_ext_n_but.place(x=130, y=50)
